@@ -15,8 +15,11 @@ class QuizApp extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Color.fromRGBO(120, 208, 198, 100),
         ),
-        body: QuizPage(),
-      ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal:5.0),
+            child:QuizPage(),
+      ),))
     );
   }
 }
@@ -38,14 +41,17 @@ class _QuizPageState extends State<QuizPage> {
       Expanded(
         flex: 6,
         
-              child: Center(
-                child: Text('This is where the question text will go.',
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('This is where the question text will go.',
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
           fontSize: 20.0
         )
         ),
+                ),
               ),
       ),
       Expanded(
@@ -56,7 +62,6 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: FlatButton(
           onPressed: (){},
-          padding: EdgeInsets.all(15.0),
           color: Colors.green,
           child: Text('True',
           textAlign: TextAlign.center,
@@ -68,15 +73,15 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
             )
-          
-      ),
+      )
+      ,
       Expanded(
         flex: 1,
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: FlatButton(
           onPressed: (){},
-          padding: EdgeInsets.all(15.0),
+          
           color: Colors.red,
           child: Text('Flase',
           textAlign: TextAlign.center,
@@ -88,7 +93,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
             )
-          
+      
       ),
     ]);
   }
