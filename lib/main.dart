@@ -30,8 +30,28 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper=[ ];
+  List<String> questions=[
+    'you can led a life ?',
+    'can you give me coffee?',
+    'can you go to school?'
+   ];
+   List<bool> answers=[
+    true,
+    true,
+    false
+   ];
+
+   int quesNumber=0;
+
   @override
   Widget build(BuildContext context) {
+    void increaseQues(){
+      setState(() {
+        quesNumber++;
+      });
+      
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -44,7 +64,7 @@ class _QuizPageState extends State<QuizPage> {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
-                  child: Text('This is where the question text will go.',
+                  child: Text(questions[quesNumber],
         textAlign: TextAlign.center,
         style: TextStyle(
           color: Colors.white,
@@ -61,7 +81,18 @@ class _QuizPageState extends State<QuizPage> {
             
             padding: EdgeInsets.all(10.0),
             child: FlatButton(
-          onPressed: (){},
+          onPressed: (){
+            bool correctAns = answers[quesNumber];
+
+            if(correctAns==true)
+            {
+              print('user got it correct');
+            }
+            else{
+              print('wrong');
+            }
+            increaseQues();
+          },
           color: Colors.green,
           child: Text('True',
           textAlign: TextAlign.center,
@@ -73,14 +104,24 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
             )
-      )
-      ,
+      ),
       Expanded(
         flex: 1,
           child: Padding(
             padding: EdgeInsets.all(10.0),
             child: FlatButton(
-          onPressed: (){},
+          onPressed: (){
+            bool correctAns = answers[quesNumber];
+
+            if(correctAns==false)
+            {
+              print('user got it correct');
+            }
+            else{
+              print('wrong');
+            }
+            increaseQues();
+          },
           
           color: Colors.red,
           child: Text('Flase',
@@ -95,6 +136,10 @@ class _QuizPageState extends State<QuizPage> {
             )
       
       ),
+      Row(
+        children: scoreKeeper
+        
+      )
     ]);
   }
 }
