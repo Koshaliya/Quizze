@@ -1,26 +1,27 @@
 import 'dart:ui';
-
+import 'quizBrain.dart';
 import 'package:flutter/material.dart';
 
+QuizBrain q1 = QuizBrain();
 void main() => runApp(QuizApp());
 
 class QuizApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.grey.shade900,
-        appBar: AppBar(
-          title: Text('Quizze'),
-          centerTitle: true,
-          backgroundColor: Color.fromRGBO(120, 208, 198, 100),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal:5.0),
-            child:QuizPage(),
-      ),))
-    );
+        home: Scaffold(
+            backgroundColor: Colors.grey.shade900,
+            appBar: AppBar(
+              title: Text('Quizze'),
+              centerTitle: true,
+              backgroundColor: Color.fromRGBO(120, 208, 198, 100),
+            ),
+            body: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                child: QuizPage(),
+              ),
+            )));
   }
 }
 
@@ -30,8 +31,20 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper=[ ];
-  List<String> questions=[
+  List<Icon> scoreKeeper = []; //keep adding later
+  void checkAns(bool userAns) {
+    bool correctAns = q1.getanswer();
+    setState(() {
+    if (userAns == correctAns) {
+      scoreKeeper.add(Icon(Icons.check,color:Colors.green));
+    } else {
+      scoreKeeper.add(Icon(Icons.close,color:Colors.red));
+    }
+    
+      q1.nextQues();
+    });
+  }
+  /*List<String> questions=[
     'you can led a life ?',
     'can you give me coffee?',
     'can you go to school?'
@@ -42,105 +55,55 @@ class _QuizPageState extends State<QuizPage> {
     false
    ];
 
-   int quesNumber=0;
+  Question q1=new Question(q:'you can led a life ?',a:true);*/
 
   @override
   Widget build(BuildContext context) {
-    void increaseQues(){
-      setState(() {
-        quesNumber++;
-      });
-      
-    }
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      
-      children: [
-        
-      Expanded(
-        flex: 6,
-        
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text(questions[quesNumber],
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 20.0
-        )
-        ),
-                ),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 6,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(q1.getquestionText(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 20.0)),
               ),
-      ),
-      Expanded(
-        
-        flex: 1,
-          child: Padding(
-            
-            padding: EdgeInsets.all(10.0),
-            child: FlatButton(
-          onPressed: (){
-            bool correctAns = answers[quesNumber];
-
-            if(correctAns==true)
-            {
-              print('user got it correct');
-            }
-            else{
-              print('wrong');
-            }
-            increaseQues();
-          },
-          color: Colors.green,
-          child: Text('True',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            
-            color: Colors.white,
-            fontSize: 20.0
-          )
+            ),
           ),
-        ),
-            )
-      ),
-      Expanded(
-        flex: 1,
-          child: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: FlatButton(
-          onPressed: (){
-            bool correctAns = answers[quesNumber];
-
-            if(correctAns==false)
-            {
-              print('user got it correct');
-            }
-            else{
-              print('wrong');
-            }
-            increaseQues();
-          },
-          
-          color: Colors.red,
-          child: Text('Flase',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            
-            color: Colors.white,
-            fontSize: 20.0
-          )
-          ),
-        ),
-            )
-      
-      ),
-      Row(
-        children: scoreKeeper
-        
-      )
-    ]);
+          Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: FlatButton(
+                  onPressed: () {
+                    checkAns(true);
+                  },
+                  color: Colors.green,
+                  child: Text('True',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 20.0)),
+                ),
+              )),
+          Expanded(
+              flex: 1,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: FlatButton(
+                  onPressed: () {
+                    checkAns(false);
+                  },
+                  color: Colors.red,
+                  child: Text('Flase',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.white, fontSize: 20.0)),
+                ),
+              )),
+          Row(children: scoreKeeper)
+        ]);
   }
 }
 
